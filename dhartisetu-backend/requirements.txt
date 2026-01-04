@@ -1,0 +1,8 @@
+tensorflow-cpu
+torch
+fastapi
+uvicorn
+huggingface_hub
+joblib
+numpy
+pillow
