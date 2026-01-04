@@ -1,35 +1,30 @@
-# app/config/settings.py
 """
-DhartiSetu Configuration (Production Ready)
-Compatible with Hugging Face + Koyeb + Vercel
+DhartiSetu Configuration
+FREE-TIER + LAZY LOADING SAFE
 """
 
 from pydantic_settings import BaseSettings
-from typing import List, Dict
+from typing import List
 
 
 class Settings(BaseSettings):
     # --------------------------------------------------
-    # APP INFO
+    # App
     # --------------------------------------------------
     APP_NAME: str = "DhartiSetu"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
 
     # --------------------------------------------------
-    # API SETTINGS
+    # API
     # --------------------------------------------------
     API_PREFIX: str = "/api/v1"
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "*"
-    ]
+    ALLOWED_ORIGINS: List[str] = ["*"]
 
     # --------------------------------------------------
-    # IMAGE UPLOAD SETTINGS
+    # Image Upload
     # --------------------------------------------------
-    MAX_IMAGE_SIZE: int = 10 * 1024 * 1024  # 10 MB
+    MAX_IMAGE_SIZE: int = 10 * 1024 * 1024
     ALLOWED_IMAGE_TYPES: List[str] = [
         "image/jpeg",
         "image/png",
@@ -37,12 +32,9 @@ class Settings(BaseSettings):
     ]
 
     # --------------------------------------------------
-    # 🔑 MODEL PATHS (HUGGING FACE REPO RELATIVE PATHS)
+    # HuggingFace Model Paths (RELATIVE TO REPO)
     # --------------------------------------------------
-    # These paths MUST match exactly what you uploaded to:
-    # https://huggingface.co/crimson1232/dhartisetu-ml-models
-    # --------------------------------------------------
-    MODEL_PATHS: Dict[str, Dict[str, str]] = {
+    MODEL_PATHS = {
         "aqi": {
             "model": "aqi/aqi_xgb.pkl",
             "encoder": "aqi/city_encoder.pkl"
@@ -57,14 +49,13 @@ class Settings(BaseSettings):
             "encoder": "crop/crop_label_encoder.pkl"
         },
         "flood": {
-            "model": "flood/flood_rf.pkl",
-            "encoders": "flood/flood_encoders.pkl"
+            "model": "flood/flood_rf.pkl"
         },
         "ndvi": {
             "model": "ndvi/ndvi_rf.pkl"
         },
         "plant_disease": {
-            "model": "plant_disease/plant_disease.h5"
+            "model": "plant_disease/pytorch_model.bin"
         },
         "price": {
             "model": "price/crop_price_xgb.pkl",
@@ -79,32 +70,22 @@ class Settings(BaseSettings):
             "encoder": "rainfall/subdivision_encoder.pkl"
         },
         "soil_cnn": {
-            "model": "soil/soil_model.pkl"
+            "model": "soil_cnn/soil_type_model.h5"
         },
         "soil_health": {
-            "model": "soil_health/soil_health_xgb.pkl",
-            "scaler": "soil_health/scaler.pkl",
-            "encoder": "soil_health/label_encoder.pkl"
+            "model": "soil_health/soil_health_xgb.pkl"
         },
         "storm": {
-            "model": "storm/storm_rf.pkl",
-            "encoders": "storm/storm_encoders.pkl"
+            "model": "storm/storm_rf.pkl"
         },
         "water": {
             "model": "water/water_rf.pkl"
         },
         "yield": {
-            "model": "yield/yield_xgb.pkl",
-            "encoders": "yield/label_encoders.pkl"
+            "model": "yield/yield_xgb.pkl"
         }
     }
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
-
-# --------------------------------------------------
-# SINGLETON SETTINGS INSTANCE
-# --------------------------------------------------
+# ✅ SINGLE SETTINGS INSTANCE
 settings = Settings()
